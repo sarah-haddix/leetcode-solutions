@@ -2,24 +2,18 @@ import java.util.HashMap;
 
 class Solution {
     public boolean canConstruct(String ransomNote, String magazine) {
-        Map<Character, Integer> map = new HashMap<>();
+        if(ransomNote.length() > magazine.length()) { return false; }
+        int[] alphabet = new int[26];
 
         for(int i = 0; i < magazine.length(); i++) {
-            if(map.containsKey(magazine.charAt(i))) {
-                map.put(magazine.charAt(i), map.get(magazine.charAt(i)) + 1);
-            } else {
-                map.put(magazine.charAt(i), 1);
-            }
+            alphabet[magazine.charAt(i) - 'a']++;
         }
 
         for(int i = 0; i < ransomNote.length(); i++) {
-            if(map.get(ransomNote.charAt(i)) != null && map.get(ransomNote.charAt(i)) > 0) {
-                map.put(ransomNote.charAt(i), map.get(ransomNote.charAt(i)) - 1);
-            } else { 
-                return false;
-            }
+            if(alphabet[ransomNote.charAt(i) - 'a'] == 0) { return false; }
+            alphabet[ransomNote.charAt(i) - 'a']--;
         }
 
-        return true;  
+        return true;
     }
 }
