@@ -7,6 +7,10 @@ class Solution {
             slow = findSquareNums(slow);
             fast = findSquareNums(findSquareNums(fast));
 
+            if(fast == 1 || slow == 1) {
+                return true;
+            }
+
             if(fast == slow) { break; }
         }
 
