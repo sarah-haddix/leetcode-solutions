@@ -1,14 +1,17 @@
 class Solution:
     def isPalindrome(self, x: int) -> bool:
+        # Check for special cases
         if x < 0 or (x > 0 and x%10 == 0):
             return False
-            
+
         result = 0
+        # Reverse the second half of the integer and save it as result
+        # Save only the first half of the integer in the original x variable
         while x > result:
             result = result * 10 + x % 10
             x = x // 10
         
-
+        # Return True only if the first and reversed second half are equal
         return (x == result or x == result // 10) == True
         
 
