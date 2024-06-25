@@ -28,7 +28,6 @@ class Solution {
             traverse(cur.right);
             cur.val += sum;
             sum += cur.val - sum;
-            System.out.println(cur.val);
             traverse(cur.left);            
         }
     }
