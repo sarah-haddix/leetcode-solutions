@@ -1,6 +1,5 @@
 class Solution {
     public void rotate(int[] nums, int k) {
-        // using .reverse()
         // forgot this at first, very important
         k = k%nums.length;
 
