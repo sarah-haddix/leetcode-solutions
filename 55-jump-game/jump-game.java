@@ -1,28 +1,21 @@
 class Solution {
     public boolean canJump(int[] nums) {
-        int[] dp = new int[nums.length];
-        Arrays.fill(dp, -1); //-1 means that this index hasn't been accessed yet
-        return create(nums, 0, dp);
-    }
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 0); 
+        dp[n-1] = 1; // base case
 
-    private boolean create(int[] nums, int idx, int[] dp) {
-        if(idx == nums.length -1) { return true; } // if we reach the end return true
-        if(nums[idx] == 0) { return false; } // if we hit a zero that means we can't move anymore
-
-        if(dp[idx] != -1) { 
-            return (dp[idx] == 1) ? true : false;
-        }
-        int reach = idx + nums[idx]; 
-        for(int jump=idx + 1; jump <= reach; jump++) {
-            // account for the case where we over-jump
-            if(jump < nums.length && create(nums, jump, dp)) { 
-                dp[idx] = 1;
-                return true; 
+        for(int idx = n-2; idx >= 0; idx--) {
+            int reach = idx + nums[idx];
+            for(int jump = idx + 1; jump <= reach; jump++) {
+                if(jump < nums.length && dp[jump] == 1) {
+                    dp[idx] = 1;
+                    break;
+                }
             }
         }
 
-        dp[idx] = 0;
-        return false;
+        return (dp[0] == 1) ? true : false;
     }
 }
 // recurring idea behind this question - I can make a jump to anywhere from pos to pos + nums[pos]
@@ -34,3 +27,12 @@ class Solution {
 // if you have jumped there before, return true and basically keep iterating until you hit either the end or a zero
 // if you hit the end, we return true fr because we start returning true all the way up the stack
 // if you hit zero, we keep exploring other branches. if that was the last branch then we start returning false all the way up the stack
+
+// dp tabulation (less stack space)
+// get rid of create function
+// dp array full of zeroes size of nums
+// start at the last one in the list = 1
+// iterate through backwards, defining the reach of each spot you go over
+// at each spot, iterate forwards over all the spots you can reach in front of you
+// if you can reach the end or like a path TO the end via this spot, this becomes part of a path TO the end
+// basically go over the entire thing and if you find out that the very first spot is a path TO the end, we're good
