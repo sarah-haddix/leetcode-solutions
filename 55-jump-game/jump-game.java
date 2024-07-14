@@ -1,21 +1,13 @@
 class Solution {
     public boolean canJump(int[] nums) {
-        int n = nums.length;
-        int[] dp = new int[n];
-        Arrays.fill(dp, 0); 
-        dp[n-1] = 1; // base case
+        int reach = 0;
 
-        for(int idx = n-2; idx >= 0; idx--) {
-            int reach = idx + nums[idx];
-            for(int jump = idx + 1; jump <= reach; jump++) {
-                if(jump < nums.length && dp[jump] == 1) {
-                    dp[idx] = 1;
-                    break;
-                }
-            }
+        for(int i = 0; i < nums.length; i++) {
+            if(reach < i) { return false; }
+            reach = Math.max(reach, i + nums[i]);
         }
 
-        return (dp[0] == 1) ? true : false;
+        return true;
     }
 }
 // recurring idea behind this question - I can make a jump to anywhere from pos to pos + nums[pos]
@@ -36,3 +28,7 @@ class Solution {
 // at each spot, iterate forwards over all the spots you can reach in front of you
 // if you can reach the end or like a path TO the end via this spot, this becomes part of a path TO the end
 // basically go over the entire thing and if you find out that the very first spot is a path TO the end, we're good
+
+// similar to Kadane's algorithm
+// greedy - keep track of max reach
+// for each index check if the reach was able to get to that spot. if it wasn't then we're fucked. if it was, incremement the max reach and carry on
