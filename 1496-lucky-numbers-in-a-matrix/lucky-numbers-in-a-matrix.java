@@ -7,15 +7,14 @@ class Solution {
         for(int i = 0; i < matrix.length; i++) { // rows
             int rowMin = matrix[i][0];
             for(int j = 1; j < matrix[i].length; j++) { // cols
-                if (matrix[i][j] < rowMin) { rowMin = matrix[i][j]; }
+                rowMin = Math.min(rowMin, matrix[i][j]);
             }
-            if (rowMin > maxRowMin) { maxRowMin = rowMin; }
-        }
+            maxRowMin = Math.max(rowMin, maxRowMin);        }
 
         for(int i = 0; i < matrix[0].length; i++) { // it over cols
             int colMax = matrix[0][i];
             for(int j = 1; j < matrix.length; j++) { // it over rows
-                if (matrix[j][i] > colMax) { colMax = matrix[j][i]; }
+                colMax = Math.max(colMax, matrix[j][i]);
             }
             if (colMax < minColMax || minColMax == 0) { minColMax = colMax; }
         }
@@ -24,5 +23,3 @@ class Solution {
         return list;
     }
 }
-
-// todo - try replacing with max to see if its faster
