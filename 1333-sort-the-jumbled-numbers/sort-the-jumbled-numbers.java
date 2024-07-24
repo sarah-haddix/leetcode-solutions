@@ -1,29 +1,25 @@
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 
 class Solution {
     public int[] sortJumbled(int[] mapping, int[] nums) {
+        HashMap<Integer, Integer> seen = new HashMap<Integer, Integer>();
+
         // Convert the int array to Integer array for using Arrays.sort with Comparator
         Integer[] numsInteger = Arrays.stream(nums).boxed().toArray(Integer[]::new);
 
-        Arrays.sort(numsInteger, new Comparator<Integer>() {
-            @Override
-            public int compare(Integer a, Integer b) {
-                return Integer.compare(convert(a, mapping), convert(b, mapping));
-            }
+        Arrays.sort(numsInteger, (a, b) -> {
+                return Integer.compare(convert(a, mapping, seen), convert(b, mapping, seen));
         });
 
         // Convert the Integer array back to int array
         nums = Arrays.stream(numsInteger).mapToInt(Integer::intValue).toArray();
         return nums;
-        /*
-        mapping = [5, 6, 8, 7, 4, 0, 3, 1, 9, 2];
-        convert(99, mapping);
-        return new int[10];
-        */
     }
 
-    private int convert(int x, int[] mapping) {
+    private int convert(int x, int[] mapping, HashMap<Integer, Integer> seen) {
+        if(seen.containsKey(x)) { return seen.get(x); }
         int num = x;
         int mappedNum = 0;
         int place = 1;
@@ -33,6 +29,8 @@ class Solution {
             place *= 10;
             num = (int)num/10;
         }
+
+        seen.put(x, mappedNum);
         return mappedNum;
     }
 }
